@@ -3,7 +3,8 @@
 
 from    Tkinter import Tk
 from Tkinter import mainloop
-import time
+from Tkinter import Label
+from Tkinter import Button
 
 
 
@@ -25,12 +26,40 @@ class Window(Tk):
     
     
 
+
+
+class TLabel(Label):
+    
+    def __init__(self , frame , text=''):
+        if not ( isinstance(frame, Window) and text):
+            raise TypeError
+        Label.__init__(self, master = frame, text = text)
+        self.pack()
+    
+
+class PButton(Button):
+    
+    def __init__(self , frame , text = ''  , command = None):
+        if not ( isinstance(frame, Window) and text):
+            raise TypeError
+        if not command:
+            command = frame.quit
+        Button.__init__(self, frame , text = '' , fg = 'red' , command = command)
+        self.pack()
+
+
+    
+    
+    
+    
+    
+
 if __name__ == "__main__":
     w = Window()
     w.set_title("x")
-    w.set_window_size(100, 100)
-    time.sleep(10)
     w.set_window_size(200, 200)
+    t = TLabel(w, 'hello')
+    b = PButton(w , 'x')
     mainloop()
     
     
