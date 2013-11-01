@@ -13,9 +13,11 @@ class PCombobox(Frame,PConfig):
     def __init__(self, master=None , combobox_callback = None):
         Frame.__init__(self, master=master)
         self.__cb_stringvar = StringVar()
-        if combobox_callback and callable(combobox_callback):
-        	self.__cb_stringvar.trace('w' , combobox_callback)
         self.__combobox = Combobox(master = self , textvariable = self.__cb_stringvar)
+        if combobox_callback and callable(combobox_callback):
+        	self.__cb_stringvar.trace('w' , self.__combobox_chang)
+        	self.__user_call_back = combobox_callback
+        self.__combobox.pack()
 
     def set_choices(self, choices=[]):
         if isinstance(choices, list):
@@ -40,7 +42,12 @@ class PCombobox(Frame,PConfig):
     		self.__cb_stringvar.set(msg)
     	else:
     		raise IllegalArugments,msg
-    
+
+    def __combobox_chang(self , *args):
+    	if self.__user_call_back:
+    		self.__user_call_back('x' , *args)
+
+
 
 
 
