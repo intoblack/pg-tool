@@ -6,10 +6,12 @@ sys.path.append("./PgTool")
 from Tkinter import Tk
 from PButton import PNumButton
 
-
+def p(index , widget):
+	widget.set_disable()
+		
 
 if __name__ == "__main__":
 	t = Tk()
-	k = PNumButton(t)
+	k = PNumButton(t , hit_call_back = p)
 	k.pack(side = 'left')
 	t.mainloop()
