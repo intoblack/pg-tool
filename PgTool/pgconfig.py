@@ -6,7 +6,7 @@ from PgException import PGException
 from PgException import NoRunableException
 
 
-class PState(object):
+class PConfig(object):
 
 
     def __set_state(self , _state):
