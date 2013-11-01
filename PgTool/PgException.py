@@ -30,3 +30,6 @@ class PGException(Exception):
 class NoRunableException(TypeError):
     pass
 
+class IllegalArugments(PGException):
+    pass
+

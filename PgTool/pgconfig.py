@@ -2,7 +2,6 @@
 #coding=utf-8
 
 
-from PgException import PGException
 from PgException import NoRunableException
 
 
