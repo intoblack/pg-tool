@@ -31,8 +31,6 @@ class PCombobox(Frame,PConfig):
         else:
         	raise IllegalArugments,aliagn
 
-
-
     def get_select_string(self):
     	return self.__cb_stringvar.get()
 
@@ -45,7 +43,9 @@ class PCombobox(Frame,PConfig):
 
     def __combobox_chang(self , *args):
     	if self.__user_call_back:
-    		self.__user_call_back('x' , *args)
+    		self.__user_call_back(self.get_select_string() , *args)
+
+    
 
 
 

@@ -3,7 +3,7 @@
 
 
 import sys
-sys.path.append("./PgTool")
+sys.path.append("../PgTool")
 from Tkinter import Tk
 from PCombobox import PCombobox
 

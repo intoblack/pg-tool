@@ -2,7 +2,7 @@
 #coding=utf-8
 
 import sys
-sys.path.append("./PgTool")
+sys.path.append("../PgTool")
 from Tkinter import Tk
 from PButton import PNumButton
 
