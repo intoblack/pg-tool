@@ -12,6 +12,6 @@ def p(index , widget):
 
 if __name__ == "__main__":
 	t = Tk()
-	k = PNumButton(t , hit_call_back = p)
+	k = PNumButton(t , hit_call_back = p, row_count = 7)
 	k.pack(side = 'left')
 	t.mainloop()
