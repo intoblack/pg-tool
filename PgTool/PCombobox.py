@@ -7,6 +7,8 @@ from Tkinter import Frame
 from Tkinter import StringVar
 from PgException import IllegalArugments
 from pgconfig import PConfig
+from Tkinter import INSERT
+from Tkinter import END
 
 
 class PCombobox(Frame, PConfig):
@@ -47,9 +49,49 @@ class PCombobox(Frame, PConfig):
             self.__user_call_back(self.get_select_string(), *args)
 
 
-def PAutoCompleteCombobox(PCombobox):
+class PAutocompleteCombobox(Combobox):
 
-    def __init__(self, master = None, combobox_callback = None):
-        PCombobox.__init__(
-            self, master=master, combobox_callback=combobox_callback)
-        self.__combobox.bind("MouseWheel", self.get_null_callback)
+        def set_completion_list(self, completion_list):
+                self._completion_list = sorted(completion_list, key=str.lower)
+                self._hits = []
+                self._hit_index = 0
+                self.position = 0
+                self.bind('<KeyRelease>', self.handle_keyrelease)
+                self['values'] = self._completion_list
+
+        def autocomplete(self, delta=0):
+
+                if delta:
+                        self.delete(self.position, END)
+                else:
+                        self.position = len(self.get())
+
+                _hits = []
+                for element in self._completion_list:
+                        if element.lower().startswith(self.get().lower()):
+                                _hits.append(element)
+                if _hits != self._hits:
+                        self._hit_index = 0
+                        self._hits = _hits
+                if _hits == self._hits and self._hits:
+                        self._hit_index = (
+                            self._hit_index + delta) % len(self._hits)
+                if self._hits:
+                        self.delete(0, END)
+                        self.insert(0, self._hits[self._hit_index])
+                        self.select_range(self.position, END)
+
+        def handle_keyrelease(self, event):
+                if event.keysym == "BackSpace":
+                        self.delete(self.index(INSERT), END)
+                        self.position = self.index(END)
+                if event.keysym == "Left":
+                        if self.position < self.index(END):
+                                self.delete(self.position, END)
+                        else:
+                                self.position = self.position - 1
+                                self.delete(self.position, END)
+                if event.keysym == "Right":
+                        self.position = self.index(END)
+                if len(event.keysym) == 1:
+                        self.autocomplete()

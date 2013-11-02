@@ -25,7 +25,7 @@ class PNumButton(Frame, PConfig):
         Frame.__init__(self, master=master)
         self.__button_list = []
         if isinstance(button_names, dict) and len(button_names) != 0 and len(button_names) >= (row_count * clounm_count):
-        	for i in range(row_count * clounm_count):
+        	for i in range(len(button_names)):
         		__button = PButton(self, title='%s' % button_names[i])
         		__button.grid(row=i / row_count, column=i % row_count)
         		__button.bind('<ButtonRelease-1>', self.call_back)
@@ -44,7 +44,3 @@ class PNumButton(Frame, PConfig):
         __index = event.widget.get_title()
         if self.__call_back:
             self.__call_back(__index, event.widget)
-        # self.hit_button(__index , event.widget )
-
-    # def hit_button(self , name , widget):
-    # 	pass
