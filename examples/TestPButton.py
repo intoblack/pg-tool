@@ -8,6 +8,7 @@ from PButton import PNumButton
 
 def p(index , widget):
 	widget.set_disable()
+	print widget.get_state()
 		
 
 if __name__ == "__main__":

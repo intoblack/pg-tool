@@ -8,15 +8,17 @@ from Tkinter import StringVar
 from PgException import IllegalArugments
 from pgconfig import PConfig
 
-class PCombobox(Frame,PConfig):
 
-    def __init__(self, master=None , combobox_callback = None):
+class PCombobox(Frame, PConfig):
+
+    def __init__(self, master=None, combobox_callback=None):
         Frame.__init__(self, master=master)
         self.__cb_stringvar = StringVar()
-        self.__combobox = Combobox(master = self , textvariable = self.__cb_stringvar)
+        self.__combobox = Combobox(
+            master=self, textvariable=self.__cb_stringvar)
         if combobox_callback and callable(combobox_callback):
-        	self.__cb_stringvar.trace('w' , self.__combobox_chang)
-        	self.__user_call_back = combobox_callback
+            self.__cb_stringvar.trace('w', self.__combobox_chang)
+            self.__user_call_back = combobox_callback
         self.__combobox.pack()
 
     def set_choices(self, choices=[]):
@@ -26,33 +28,28 @@ class PCombobox(Frame,PConfig):
             self.__combobox['values'] = []
 
     def set_text_aliagen(self, aliagn='left'):
-        if isinstance(aliagn ,str ) and aliagn in ['left', 'center', 'right']:
-        	self.__combobox['justify'] = aliagn
+        if isinstance(aliagn, str) and aliagn in ['left', 'center', 'right']:
+            self.__combobox['justify'] = aliagn
         else:
-        	raise IllegalArugments,aliagn
+            raise IllegalArugments, aliagn
 
     def get_select_string(self):
-    	return self.__cb_stringvar.get()
+        return self.__cb_stringvar.get()
+
+    def set_select_string(self, msg):
+        if msg and (isinstance(msg, str) or isinstance(msg, unicode)):
+            self.__cb_stringvar.set(msg)
+        else:
+            raise IllegalArugments, msg
+
+    def __combobox_chang(self, *args):
+        if self.__user_call_back:
+            self.__user_call_back(self.get_select_string(), *args)
 
 
-    def set_select_string(self , msg):
-    	if msg and (isinstance(msg , str) or isinstance(msg ,unicode)):
-    		self.__cb_stringvar.set(msg)
-    	else:
-    		raise IllegalArugments,msg
+def PAutoCompleteCombobox(PCombobox):
 
-    def __combobox_chang(self , *args):
-    	if self.__user_call_back:
-    		self.__user_call_back(self.get_select_string() , *args)
-
-    
-
-
-
-
-
-
-
-
-
-
+    def __init__(self, master = None, combobox_callback = None):
+        PCombobox.__init__(
+            self, master=master, combobox_callback=combobox_callback)
+        self.__combobox.bind("MouseWheel", self.get_null_callback)
