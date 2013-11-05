@@ -33,3 +33,6 @@ class NoRunableException(TypeError):
 class IllegalArugments(PGException):
     pass
 
+class IllleaglJob(PGException):
+    pass
+
